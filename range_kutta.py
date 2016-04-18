@@ -26,4 +26,4 @@ def main(argv):
     range_kutta(float(sys.argv[1]), float(sys.argv[2]), int(sys.argv[3]), float(sys.argv[4]))
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    main(sys.argv[1:])fdd

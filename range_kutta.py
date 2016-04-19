@@ -1,9 +1,10 @@
 import sys
 import math
 import numpy as np
+import matplotlib.pyplot as plt
 
-def f(t, w):
-    y(t) = 
+def f(t, y):
+    return math.pow(math.e, t - y)
     
 def range_kutta(a, b, N, alpha):
     h = (b - a) / N
@@ -22,8 +23,15 @@ def range_kutta(a, b, N, alpha):
 
         print ("t: " + str(t) + " w: " + str(w))
 
+    # evenly sampled time at 200ms intervals
+    t = np.arange(0., 5., 0.2)
+
+    # red dashes, blue squares
+    plt.plot(t, math.pow(math.e, t - y), 'r--', t, math.log(math.pow(math.e, t) + math.e - 1), 'bs')
+    plt.show()
+
 def main(argv):    
     range_kutta(float(sys.argv[1]), float(sys.argv[2]), int(sys.argv[3]), float(sys.argv[4]))
 
 if __name__ == "__main__":
-    main(sys.argv[1:])fdd
+    main(sys.argv[1:])

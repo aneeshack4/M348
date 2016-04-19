@@ -5,10 +5,17 @@ import matplotlib.pyplot as plt
 
 def f(t, y):
     return math.pow(math.e, t - y)
+
+def true_sol(t):
+    return np.log(np.exp(t) + math.e - 1)
     
 def range_kutta_fehlberg(a, b, alpha, tol, hmax, hmin):
     t = a
     w = alpha
+    new_point = [t, w]
+    li = []
+    li.append(new_point)
+
     h = hmax
     flag = 1
     print ("t: " + str(t) + " w: " + str(w))
@@ -26,9 +33,11 @@ def range_kutta_fehlberg(a, b, alpha, tol, hmax, hmin):
         if (r < tol or r == tol):
             t = t + h
             w = w + (25.0/216.0)*k1 + (1408.0/2565.0)*k3 + (2197.0/4104.0)*k4 - (1.0/5.0)*k5
+            new_point = [t, w]
+            li.append(new_point)
             print ("t: " + str(t) + " w: " + str(w) + " h: " + str(h))
 
-        psi = 0.84 * math.pow((float(tol))/(float(r)), .25)
+        psi = 0.84 * math.pow(tol/r, .25)
 
         if (psi < 0.1 or psi == 0.1):
             h = 0.1 * h
@@ -47,6 +56,16 @@ def range_kutta_fehlberg(a, b, alpha, tol, hmax, hmin):
         elif (h < hmin):
             flag = 0
             print ("minimum h exceeded") #procedure completed unsuccessfully
+    
+    plt.grid(True)
+
+    domain = np.array(np.linspace(0, 1, num=100))
+    plt.plot(domain, true_sol(domain), "b-")
+
+    tw = [(t, w) for t, w in li]
+    plt.plot([x[0] for x in tw], [x[1] for x in tw], "ro--")
+
+    plt.show()
 
 def main(argv):    
     range_kutta_fehlberg(float(sys.argv[1]), float(sys.argv[2]), float(sys.argv[3]), float(sys.argv[4]), float(sys.argv[5]), float(sys.argv[6]))
